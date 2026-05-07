@@ -4,7 +4,7 @@ import { Channel, ChatMember, type Message, Server } from '~/api';
 import type { MainContextType } from '~/hooks/useMain';
 import type { Updater } from 'use-immer';
 
-export const socket = io('ws://localhost:3002', {
+export const socket = io(import.meta.env.VITE_WS_URL, {
     withCredentials: true,
 });
 
