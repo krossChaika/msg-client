@@ -4,6 +4,7 @@ import MyForm from '~/components/MyForm';
 export default function() {
     const onSubmit = async (body: any) => {
         try {
+            console.log(import.meta.env.VITE_API_URL + '/auth/login');
             const response = await axios.post(import.meta.env.VITE_API_URL + '/auth/login', body, {
                 withCredentials: true,
             });
