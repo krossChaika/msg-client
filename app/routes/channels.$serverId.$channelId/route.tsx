@@ -3,10 +3,9 @@ import { useMutation } from '@tanstack/react-query';
 import MyForm from '~/components/MyForm';
 import api, { Message } from '~/api';
 import { type CreateMessageDto, useChatSocket } from '~/hooks/useChatSocket';
-import { useContext, useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { type ChannelsPageParams } from '~/routes/channels/route';
 import {
-    MainContext,
     type MainContextType,
 } from '~/hooks/useMain';
 import { MessagesList } from '~/routes/channels.$serverId.$channelId/MessagesList';
@@ -141,17 +140,20 @@ export default function() {
                     <button className={'button-primary'}>Send</button>
                 </MyForm>
             </main>
-            <aside className={'w-[200px] h-full border-normal-l p-4'}>
-                <p className={'color-nav-text mb-4'}>Members:</p>
-                <hr className={'mb-4'} />
-                <ul>
-                    {currentServer?.members.map(member => (
-                        <li style={{ color: api.users.getColorById(member.user.id) }}>
-                            {member.user.name}
-                        </li>
-                    ))}
-                </ul>
-            </aside>
+            {
+                context.currentServerId !== 'me' &&
+                <aside className={'w-[200px] h-full border-normal-l p-4'}>
+                    <p className={'color-nav-text mb-4'}>Members:</p>
+                    <hr className={'mb-4'} />
+                    <ul>
+                        {currentServer?.members.map(member => (
+                            <li style={{ color: api.users.getColorById(member.user.id) }}>
+                                {member.user.name}
+                            </li>
+                        ))}
+                    </ul>
+                </aside>
+            }
         </div>
     );
 }

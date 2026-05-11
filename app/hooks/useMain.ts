@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { Channel, FriendRequest, Friendship, Server, ServerMember, User } from '~/api';
-import { useMyServersQuery } from '~/hooks/useMyServersQuery';
+import { Channel, FriendRequest, Friendship, Server, User } from '~/api';
+import { useMyUserData } from '~/hooks/useMyUserData';
 import type { Updater } from 'use-immer';
 
 export type MainContextType = {
@@ -44,24 +44,24 @@ export const checkNewMessages = (
 };
 
 export default function(serverId?: string, channelId?: string): HookResult {
-    const membershipsQuery = useMyServersQuery();
+    const membershipsQuery = useMyUserData();
     const { context, updateContext } = useContext(MainContext);
-    const [data, setData] = useState<ServerMember[] | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     
-    const isLoading = data === null;
+    const isLoading = user === null;
     
     useEffect(() => {
         if (!membershipsQuery.data) return;
         
-        setData(structuredClone(membershipsQuery.data));
+        setUser(structuredClone(membershipsQuery.data));
     }, [membershipsQuery.data]);
     
     useEffect(() => {
-        if (!data) return;
+        if (!user) return;
         
         if (!context.user) {
             updateContext(draft => {
-                const user = data[0].user;
+                // const user = data;
                 draft.user = user;
                 draft.friendships = [...user.friendships];
                 draft.sentFriendRequests = [...user.outgoingFriendRequests];
@@ -80,7 +80,7 @@ export default function(serverId?: string, channelId?: string): HookResult {
                 const servers = new Map();
                 const chats = new Map();
                 
-                for (const m of data) {
+                for (const m of user.serverMemberships) {
                     const _channels = [...m.server.channels];
                     _channels.sort((a, b) => (a.lastMessageDate > b.lastMessageDate) ? 1 : 0);
                     servers.set(m.serverId, m.server);
@@ -89,7 +89,7 @@ export default function(serverId?: string, channelId?: string): HookResult {
                     // }
                 }
                 
-                for (const chat of data[0].user.chats) {
+                for (const chat of user.chats) {
                     chats.set(chat.channel.id, chat.channel);
                 }
                 
@@ -98,7 +98,7 @@ export default function(serverId?: string, channelId?: string): HookResult {
                 // setCurrentChannel(channelId, draft);
             });
         }
-    }, [data]);
+    }, [user]);
     
     useEffect(() => {
         // if (!context.servers) return;

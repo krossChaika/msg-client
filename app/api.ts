@@ -20,6 +20,9 @@ export class User {
     
     @Type(() => Friendship)
     friendships: Friendship[];
+    
+    @Type(() => ServerMember)
+    serverMemberships: ServerMember[];
 }
 
 export class ChatMember {
@@ -146,6 +149,12 @@ export default {
             
             colorsMap.set(id, newColor);
             return newColor;
+        },
+        getMe: async (): Promise<User> => {
+            const res = (await axios.get(url('user/me'), {
+                withCredentials: true,
+            })).data;
+            return structuredClone(plainToInstance(User, res));
         },
     },
     serverMembers: {

@@ -8,7 +8,7 @@ export default function() {
     
     const onSubmit = async (body: any) => {
         try {
-            const response = await axios.post(api.url('/auth/login'), body, {
+            const response = await axios.post(api.url('/auth/register'), body, {
                 withCredentials: true,
             });
             
@@ -16,13 +16,13 @@ export default function() {
             navigate('/channels/me');
         } catch (error) {
             console.log(error);
-            alert('Wrong username or password!');
+            alert('User already exists!');
         }
     };
     
     return (
         <main className={'flex flex-col max-w-[100vw] w-[800px]'}>
-            <h1 className={'text-center mt-4'}>Log in</h1>
+            <h1 className={'text-center mt-4'}>Register</h1>
             <MyForm className={'flex flex-col flex-1 space-y-2 m-4'} onSubmit={onSubmit}>
                 <input
                     type="text"
@@ -38,7 +38,7 @@ export default function() {
                     minLength={4}
                     maxLength={32}
                 />
-                <button className={'button-primary mt-8 w-full!'}>Log in</button>
+                <button className={'button-primary mt-8 w-full!'}>Register</button>
             </MyForm>
         </main>
     );
