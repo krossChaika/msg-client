@@ -45,11 +45,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <Links />
         </head>
         <body>
-        <QueryClientProvider client={queryClient}>
-            {children}
-            <ScrollRestoration />
-            <Scripts />
-        </QueryClientProvider>
+        <div id={'root'}>
+            <QueryClientProvider client={queryClient}>
+                {children}
+                <ScrollRestoration />
+                <Scripts />
+            </QueryClientProvider>
+        </div>
         </body>
         </html>
     );
