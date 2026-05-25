@@ -150,9 +150,8 @@ export default function() {
             {
                 context.currentServerId !== 'me' &&
                 <aside className={'members-sidebar border-normal-l'}>
-                    <p className={'color-nav-text mb-4'}>Members:</p>
-                    <hr className={'mb-4'} />
-                    <ul>
+                    <p className={'color-nav-text p-4 border-normal-b'}>Members:</p>
+                    <ul className={'m-4'}>
                         {currentServer?.members.map(member => (
                             <li
                                 key={'member-' + member.user.id}

@@ -71,7 +71,7 @@ export class Channel {
     chatMembers?: ChatMember[];
 }
 
-export function getOtherUserId(channel: Channel, myId: string) {
+export function getOtherChatMember(channel: Channel, myId: string) {
     return channel.chatMembers?.find(x => x.userId !== myId)!;
 }
 

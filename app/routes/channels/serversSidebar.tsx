@@ -40,8 +40,12 @@ export const ServersSidebar = memo(({ servers }: { servers: Map<string, Server> 
     
     return (
         <nav className={'servers-sidebar border-nav-r'}>
-            <Link to={'/channels/me'}>Chats</Link>
-            <hr />
+            <Link
+                to={'/channels/me'}
+                className={'p-4 border-normal-b'}
+            >
+                Chats
+            </Link>
             <ul>
                 {serversList.map(server => {
                     let className;
@@ -62,7 +66,10 @@ export const ServersSidebar = memo(({ servers }: { servers: Map<string, Server> 
                     }
                     
                     return (
-                        <li key={'server-' + server.id} className={className}>
+                        <li
+                            key={'server-' + server.id}
+                            className={className + ' mx-1'}
+                        >
                             <Link to={'/channels/' + server.id}>
                                 {server.name}
                             </Link>

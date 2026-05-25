@@ -21,9 +21,14 @@ export const ChannelsSidebar = memo(() => {
     
     return (
         <>
-            <button onClick={onServerNameClick} className={'server-actions-btn'}>
-                {currentServer.name}
-            </button>
+            <div className={'border-normal-b p-2'}>
+                <button
+                    onClick={onServerNameClick}
+                    className={'server-actions-btn'}
+                >
+                    {currentServer.name}
+                </button>
+            </div>
             <dialog ref={serverActionsDialogRef} className={'dialog'}>
                 Invite code: {currentServer.inviteCode}
                 <hr />
@@ -32,7 +37,6 @@ export const ChannelsSidebar = memo(() => {
                     <CreateChannelButton />
                 }
             </dialog>
-            <hr />
             <ul>
                 {currentServer.channels.map(channel => {
                     const url = `/channels/${currentServer.id}/${channel.id}`;
@@ -49,7 +53,7 @@ export const ChannelsSidebar = memo(() => {
                     
                     return (
                         <li
-                            className={className}
+                            className={className + ' mx-2'}
                             key={'channel-' + channel.id}>
                             <Link className={'flex flex-1'} to={url}>
                                 # {channel.name}
@@ -58,7 +62,6 @@ export const ChannelsSidebar = memo(() => {
                     );
                 })}
             </ul>
-            <hr />
         </>
     );
 });

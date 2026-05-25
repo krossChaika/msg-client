@@ -91,7 +91,6 @@ h1, h2, h3, h4, h5, h6, p {
 .members-sidebar {
     width: 200px;
     height: 100%;
-    padding: 1rem;
 }
 
 .show-members-btn {
@@ -111,7 +110,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 @media (max-width: 900px) {
-    .channels-page:has(> div) {
+    .channels-page:has(> main) {
         > .channels-sidebar, .servers-sidebar {
             display: none;
         }
