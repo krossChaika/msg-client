@@ -1,4 +1,4 @@
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import { useMutation } from '@tanstack/react-query';
 import MyForm from '~/components/MyForm';
 import api, { Message } from '~/api';
@@ -12,6 +12,7 @@ import { MessagesList } from '~/routes/channels.$serverId.$channelId/MessagesLis
 import { getMessagesQueryKey, type OptimisticMessage } from '~/hooks/useMessagesQuery';
 import { plainToInstance } from 'class-transformer';
 import useMainContext from '~/hooks/useMainContext';
+import ArrowBack from '~/routes/channels.$serverId.$channelId/arrowback.svg';
 
 export default function() {
     const { channelId } = useParams<ChannelsPageParams>() as ChannelsPageParams;
@@ -112,7 +113,7 @@ export default function() {
     const onMessageSubmit = async (body: CreateMessageDto) => {
         if (!channelId) return;
         
-        body.channelId = channelId; //'2'
+        body.channelId = channelId;
         
         addMessageMutation.mutate({ dto: body, pageContext: context });
         adjustScrollbarFnRef.current(Infinity);
@@ -120,9 +121,15 @@ export default function() {
     };
     
     return (
-        <div className={'bg-primary color-primary flex flex-1'}>
-            <main className={'flex flex-col flex-1 gap-2 min-h-0'}>
+        <main className={'bg-primary color-primary flex flex-1'}>
+            <div className={'flex flex-col flex-1 gap-2 min-h-0'}>
                 <header className={'border-normal-b p-4'}>
+                    <Link
+                        to={'/channels/' + context.currentServerId}
+                        className={'back-to-channels-btn mr-4 color-nav-text'}
+                    >
+                        <img className={'inline'} src={ArrowBack} alt="Back" />
+                    </Link>
                     # {currentChannel.name}
                 </header>
                 <MessagesList
@@ -139,10 +146,10 @@ export default function() {
                     />
                     <button className={'button-primary'}>Send</button>
                 </MyForm>
-            </main>
+            </div>
             {
                 context.currentServerId !== 'me' &&
-                <aside className={'w-[200px] h-full border-normal-l p-4'}>
+                <aside className={'members-sidebar border-normal-l'}>
                     <p className={'color-nav-text mb-4'}>Members:</p>
                     <hr className={'mb-4'} />
                     <ul>
@@ -154,6 +161,6 @@ export default function() {
                     </ul>
                 </aside>
             }
-        </div>
+        </main>
     );
 }

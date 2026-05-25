@@ -7,7 +7,6 @@ import useMain, {
 import { useImmer } from 'use-immer';
 import { useChatSocket } from '~/hooks/useChatSocket';
 import { Channel, ChatMember, FriendRequest, Friendship, Message } from '~/api';
-import { useEffect } from 'react';
 import { plainToInstance } from 'class-transformer';
 import { useQueryClient } from '@tanstack/react-query';
 import { getMessagesQueryKey, type OptimisticMessage } from '~/hooks/useMessagesQuery';
@@ -143,14 +142,10 @@ function Page() {
         },
     ]);
     
-    // useEffect(() => {
-    //     console.log(context.servers);
-    // }, [context.servers]);
-    
     if (isLoading || !context.servers) return null;
     
     return (
-        <div className={'flex w-full h-screen'}>
+        <div className={'channels-page'}>
             <ServersSidebar servers={context.servers} />
             <Outlet />
         </div>

@@ -78,6 +78,50 @@ body {
     }
 }
 
+.channels-page {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+.back-to-channels-btn {
+    display: none;
+}
+
+.members-sidebar {
+    width: 200px;
+    height: 100%;
+    padding: 1rem;
+}
+
+.show-members-btn {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .channels-page:has(> main) {
+        .members-sidebar {
+            display: none;
+        }
+
+        .show-members-btn {
+            display: inline;
+        }
+    }
+}
+
+@media (max-width: 900px) {
+    .channels-page:has(> div) {
+        > .channels-sidebar, .servers-sidebar {
+            display: none;
+        }
+
+        .back-to-channels-btn {
+            display: inline;
+        }
+    }
+}
+
 .server-actions-btn {
     anchor-name: --server-actions-btn;
 }

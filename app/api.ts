@@ -157,14 +157,6 @@ export default {
             return structuredClone(plainToInstance(User, res));
         },
     },
-    serverMembers: {
-        getMyServers: async (): Promise<ServerMember[]> => {
-            const res = (await axios.get(url('server-member/me'), {
-                withCredentials: true,
-            })).data;
-            return plainToInstance(ServerMember, res) as any;
-        },
-    },
     messages: {
         getByChannelId: async (id: string, limit: number, before: Date): Promise<Message[]> => {
             console.log(id);
