@@ -1,8 +1,8 @@
-import { memo, type RefObject, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import './MessageList.css';
+import { memo, type RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import api from '~/api';
 import { useQueryClient } from '@tanstack/react-query';
 import { getMessagesQueryKey, type OptimisticMessage, useMessagesQuery } from '~/hooks/useMessagesQuery';
-import { MainContext } from '~/hooks/useMain';
 import TrashBin from './trashbin.svg';
 import { useChatSocket } from '~/hooks/useChatSocket';
 import useMainContext from '~/hooks/useMainContext';
@@ -116,11 +116,11 @@ export const MessagesList = memo((props: MessagesListProps) => {
     const messagesRef = useRef<OptimisticMessage[] | undefined>(messagesQuery.data);
     const shouldFetchOlderMessagesRef = useRef(true);
     const [messageBoxTopRef, setMessageBoxTopRef] = useState<any>();
-    const observerRef = useRef(new IntersectionObserver((entries) => {
+    const observerRef = useRef(new IntersectionObserver(async (entries) => {
         for (const entry of entries) {
             if (!entry.isIntersecting) continue;
             // console.log('intersecting, loading older messages');
-            const res = tryLoadOlderMessages();
+            await tryLoadOlderMessages();
             // console.log(res);
         }
     }));
@@ -167,7 +167,7 @@ export const MessagesList = memo((props: MessagesListProps) => {
                     const prev = messagesQuery.data[index - 1];
                     const isHeader = !prev || prev.user.id !== message.user.id;
                     const canDelete = message.user.id === context.user.id
-                        || context.user.id === currentServer!.ownerId;
+                        || context.user.id === currentServer?.ownerId;
                     
                     const lastVisitedDate = context.lastVisitDates.get(currentChannel!.id);
                     

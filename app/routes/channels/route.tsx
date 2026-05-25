@@ -40,7 +40,11 @@ function Page() {
         {
             event: 'create-new-message',
             listener: ({ message, serverId }: { message: Message, serverId: string }) => {
-                console.log(serverId);
+                const channel = getChannel(context, message.channelId, message.channel?.id);
+                if (channel && !message.channel) {
+                    message.channel = channel;
+                }
+                
                 queryClient.setQueryData<OptimisticMessage[]>(
                     getMessagesQueryKey(message.channel.id),
                     (old) => {
@@ -115,7 +119,7 @@ function Page() {
         {
             event: 'create-chat',
             listener: (chatMembership: ChatMember) => {
-                const instance = plainToInstance(ChatMember, chatMembership);
+                const instance = structuredClone(plainToInstance(ChatMember, chatMembership));
                 
                 updateContext(draft => {
                     draft.chats.set(instance.channelId, instance.channel);
@@ -132,11 +136,7 @@ function Page() {
                         throw new Error('Channels server ID is missing');
                     }
                     
-                    // draft.channels.set(channel.id, channel);
                     draft.servers.get(channel.serverId)?.channels.push(channel);
-                    // for (const s of draft.servers) {
-                    //     console.log(s);
-                    // }
                 });
             },
         },

@@ -1,0 +1,11 @@
+.friend-request-card {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    padding-bottom: 0.5rem;
+
+    &:not(:last-of-type) {
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: 0.5rem;
+    }
+}

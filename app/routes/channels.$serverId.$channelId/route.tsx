@@ -45,7 +45,7 @@ export default function() {
         listener: (message: Message) => {
             message = plainToInstance(Message, message);
             
-            if (message.channel.id !== channelIdRef.current) return;
+            if (message.channel?.id !== channelIdRef.current) return;
             
             adjustScrollbarFnRef.current(100);
             const now = new Date();
@@ -154,7 +154,10 @@ export default function() {
                     <hr className={'mb-4'} />
                     <ul>
                         {currentServer?.members.map(member => (
-                            <li style={{ color: api.users.getColorById(member.user.id) }}>
+                            <li
+                                key={'member-' + member.user.id}
+                                style={{ color: api.users.getColorById(member.user.id) }}
+                            >
                                 {member.user.name}
                             </li>
                         ))}

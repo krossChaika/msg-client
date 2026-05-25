@@ -1,5 +1,6 @@
+import './channelSidebar.css';
 import { memo } from 'react';
-import { type MainContextType, checkNewMessages } from '~/hooks/useMain';
+import { checkNewMessages } from '~/hooks/useMain';
 import { Link } from 'react-router';
 import { getOtherUserId } from '~/api';
 import useMainContext from '~/hooks/useMainContext';

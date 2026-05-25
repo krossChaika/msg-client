@@ -4,32 +4,32 @@ import { MainContext, type MainContextType } from '~/hooks/useMain';
 export default function() {
     const { context, updateContext } = useContext(MainContext);
     
-    const getCurrentServer = (context: MainContextType) => {
-        if (context.currentServerId) {
-            return context.servers?.get(context.currentServerId);
+    const getCurrentServer = (ctx: MainContextType) => {
+        if (ctx.currentServerId) {
+            return ctx.servers?.get(ctx.currentServerId);
         }
     };
     
-    const getCurrentChannel = (context: MainContextType) => {
-        if (!context.currentChannelId) {
+    const getCurrentChannel = (ctx: MainContextType) => {
+        if (!ctx.currentChannelId) {
             return undefined;
         }
         
-        const currentServer = getCurrentServer(context);
+        const currentServer = getCurrentServer(ctx);
         
         if (currentServer) {
-            return currentServer.channels.find(c => c.id === context.currentChannelId);
+            return currentServer.channels.find(c => c.id === ctx.currentChannelId);
         }
         
-        return context.chats?.get(context.currentChannelId);
+        return ctx.chats?.get(ctx.currentChannelId);
     };
     
-    const getChannel = (context: MainContextType, id: string, serverId?: string) => {
+    const getChannel = (ctx: MainContextType, id: string, serverId?: string) => {
         if (serverId) {
-            return context.servers.get(serverId)?.channels.find(c => c.id == id);
+            return ctx.servers?.get(serverId)?.channels.find(c => c.id == id);
         }
         
-        return context.chats.get(id);
+        return ctx.chats.get(id);
     };
     
     const currentServer = getCurrentServer(context);

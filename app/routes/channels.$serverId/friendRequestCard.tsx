@@ -1,3 +1,4 @@
+import './friendRequestCard.css';
 import { memo } from 'react';
 import { FriendRequest } from '~/api';
 import { useChatSocket } from '~/hooks/useChatSocket';

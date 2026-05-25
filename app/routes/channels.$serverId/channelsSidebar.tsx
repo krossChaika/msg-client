@@ -1,6 +1,7 @@
-import { memo, useContext, useRef } from 'react';
+import './channelSidebar.css';
+import { memo, useRef } from 'react';
 import { Link } from 'react-router';
-import { MainContext, checkNewMessages } from '~/hooks/useMain';
+import { checkNewMessages } from '~/hooks/useMain';
 import CreateChannelButton from '~/routes/channels.$serverId/serverManagement/CreateChannelButton';
 import useMainContext from '~/hooks/useMainContext';
 
