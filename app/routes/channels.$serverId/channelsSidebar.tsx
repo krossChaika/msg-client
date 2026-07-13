@@ -21,7 +21,7 @@ export const ChannelsSidebar = memo(() => {
     
     return (
         <>
-            <div className={'border-normal-b p-2'}>
+            <div className={'border-nav-b p-2'}>
                 <button
                     onClick={onServerNameClick}
                     className={'server-actions-btn'}
@@ -30,12 +30,14 @@ export const ChannelsSidebar = memo(() => {
                 </button>
             </div>
             <dialog ref={serverActionsDialogRef} className={'dialog'}>
-                Invite code: {currentServer.inviteCode}
-                <hr />
-                {
-                    currentServer.ownerId === context.user.id &&
-                    <CreateChannelButton />
-                }
+                <span>Invite code: {currentServer.inviteCode}</span>
+                <hr className={'mt-2 border-nav'} />
+                <div>
+                    {
+                        currentServer.ownerId === context.user.id &&
+                        <CreateChannelButton closeDialogCallback={() => serverActionsDialogRef.current?.close()} />
+                    }
+                </div>
             </dialog>
             <ul>
                 {currentServer.channels.map(channel => {

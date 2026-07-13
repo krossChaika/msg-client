@@ -5,6 +5,7 @@ import { MainContext } from '~/hooks/useMain';
 import { plainToInstance } from 'class-transformer';
 import MyForm from '~/components/MyForm';
 import { Modal } from '~/components/Modal';
+import { useModal } from '~/hooks/useModal';
 
 export type FriendCardProps = {
     friendship: Friendship;
@@ -13,7 +14,8 @@ export type FriendCardProps = {
 export const FriendCard = memo(({ friendship }: FriendCardProps) => {
     const socket = useChatSocket();
     const { updateContext } = useContext(MainContext);
-    const showButtonRef = useRef<HTMLButtonElement>(null);
+    const modalRef = useRef<HTMLDialogElement>(null);
+    const modal = useModal(modalRef);
     
     const onSubmit = async ({ message }: { message: string }) => {
         const membership = plainToInstance(ChatMember, await socket.createChat({
@@ -34,15 +36,16 @@ export const FriendCard = memo(({ friendship }: FriendCardProps) => {
         <li className={'friend-request-card'}>
             {friendship.friend.name}
             <div className={'ml-auto'}>
-                <button className={'button-primary'} ref={showButtonRef}>
+                <button className={'button-primary'} onClick={modal.showModal}>
                     Send a message
                 </button>
             </div>
-            <Modal showButtonRef={showButtonRef}>
+            <Modal ref={modalRef}>
                 <MyForm className={'flex flex-col space-y-4'} onSubmit={onSubmit}>
                     <input
                         type="text"
                         name={'message'}
+                        minLength={1}
                         placeholder={'Say hello!'}
                         className={'max-w-[calc(100vw-100px)] w-100'}
                     />

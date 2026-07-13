@@ -7,8 +7,6 @@ export type MainContextType = {
     user: User;
     // currentServer?: Server;
     // currentChannel?: Channel;
-    currentServerId?: string;
-    currentChannelId?: string;
     servers: Map<string, Server>;
     chats: Map<string, Channel>;
     friendships: Friendship[];
@@ -84,9 +82,6 @@ export default function(serverId?: string, channelId?: string): HookResult {
                     const _channels = [...m.server.channels];
                     _channels.sort((a, b) => (a.lastMessageDate > b.lastMessageDate) ? 1 : 0);
                     servers.set(m.serverId, m.server);
-                    // for (const channel of _channels) {
-                    //     channels.set(channel.id, channel);
-                    // }
                 }
                 
                 for (const chat of user.chats) {
@@ -95,53 +90,9 @@ export default function(serverId?: string, channelId?: string): HookResult {
                 
                 draft.servers = servers;
                 draft.chats = chats;
-                // setCurrentChannel(channelId, draft);
             });
         }
     }, [user]);
-    
-    useEffect(() => {
-        // if (!context.servers) return;
-        //
-        // if (serverId === 'me' || !serverId) {
-        //     updateContext(draft => {
-        //         draft.currentServer = undefined;
-        //     });
-        //     return;
-        // }
-        //
-        // const server = context.servers.get(serverId);
-        //
-        // updateContext(draft => {
-        //     draft.currentServer = server;
-        //     setCurrentChannel(channelId, draft);
-        // });
-        updateContext(draft => {
-            draft.currentServerId = serverId;
-        });
-    }, [serverId]);
-    
-    useEffect(() => {
-        updateContext(draft => {
-            // setCurrentChannel(channelId, draft);
-            draft.currentChannelId = channelId;
-        });
-    }, [channelId]);
-    
-    // const setCurrentChannel = (channelId: string | undefined, draft: ChannelPageContextType) => {
-    //     if (!data) return;
-    //
-    //     let channel: Channel | undefined;
-    //
-    //     if (draft.currentServer) {
-    //         channel = draft.currentServer.channels.find(c => c.id === channelId);
-    //         //?? context.currentServer.channels[0]
-    //     } else if (channelId) {
-    //         channel = draft.chats.get(channelId);
-    //     }
-    //
-    //     draft.currentChannel = channel;
-    // };
     
     return {
         isLoading,

@@ -8,6 +8,7 @@ import MyForm from '~/components/MyForm';
 import { useChatSocket } from '~/hooks/useChatSocket';
 import { plainToInstance } from 'class-transformer';
 import add from '~/components/add.svg';
+import { useModal } from '~/hooks/useModal';
 
 export const ServersSidebar = memo(({ servers }: { servers: Map<string, Server> }) => {
     const serversList = useMemo(() => {
@@ -20,7 +21,8 @@ export const ServersSidebar = memo(({ servers }: { servers: Map<string, Server> 
     
     const { context, updateContext, currentServer } = useMainContext();
     
-    const createServerBtnRef = useRef<HTMLButtonElement>(null);
+    const createServerModalRef = useRef<HTMLDialogElement>(null);
+    const createServerModal = useModal(createServerModalRef);
     
     const socket = useChatSocket();
     
@@ -40,10 +42,7 @@ export const ServersSidebar = memo(({ servers }: { servers: Map<string, Server> 
     
     return (
         <nav className={'servers-sidebar border-nav-r'}>
-            <Link
-                to={'/channels/me'}
-                className={'p-4 border-normal-b'}
-            >
+            <Link to={'/channels/me'} className={'p-4 border-nav-b'}>
                 Chats
             </Link>
             <ul>
@@ -77,11 +76,14 @@ export const ServersSidebar = memo(({ servers }: { servers: Map<string, Server> 
                     );
                 })}
             </ul>
-            <hr />
-            <button className={'button-secondary w-8! h-8! rounded-[50%]!'} ref={createServerBtnRef}>
+            <hr className={'border-nav'} />
+            <button
+                className={'button-secondary w-8! h-8! rounded-[50%]!'}
+                onClick={createServerModal.showModal}
+            >
                 <img src={add} alt="+" />
             </button>
-            <Modal showButtonRef={createServerBtnRef}>
+            <Modal ref={createServerModalRef}>
                 <MyForm className={'flex flex-col gap-2 mb-4'} onSubmit={onCreateServer}>
                     <input
                         name={'name'}

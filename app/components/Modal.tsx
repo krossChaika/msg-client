@@ -1,37 +1,19 @@
-import { memo, type PropsWithChildren, type RefObject, useEffect, useRef } from 'react';
+import { memo, type PropsWithChildren, type RefObject } from 'react';
 import { CloseButton } from '~/components/CloseButton';
+import { useModal } from '~/hooks/useModal';
 
 type ModalProps = PropsWithChildren<{
-    showButtonRef: RefObject<HTMLButtonElement | null>;
+    ref: RefObject<HTMLDialogElement | null>;
 }>
 
-export const Modal = memo(({ children, showButtonRef }: ModalProps) => {
-    const dialogRef = useRef<HTMLDialogElement>(null);
-    
-    const onShowButtonClick = () => {
-        if (!dialogRef.current) return;
-        console.log('show');
-        dialogRef.current.showModal();
-    };
-    
-    const onCloseButtonClick = () => {
-        if (!dialogRef.current) return;
-        dialogRef.current.close();
-    };
-    
-    useEffect(() => {
-        showButtonRef.current?.addEventListener('click', onShowButtonClick);
-        
-        return () => {
-            showButtonRef.current?.removeEventListener('click', onShowButtonClick);
-        };
-    }, []);
+export const Modal = memo(({ children, ref }: ModalProps) => {
+    const controls = useModal(ref);
     
     return (
-        <dialog className={'modal-dialog'} ref={dialogRef}>
+        <dialog className={'modal-dialog'} ref={ref}>
             <CloseButton
                 className={'absolute right-2 top-2 p-0!'}
-                onClick={onCloseButtonClick}
+                onClick={controls.closeModal}
             />
             {children}
         </dialog>

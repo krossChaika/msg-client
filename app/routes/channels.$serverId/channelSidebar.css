@@ -13,6 +13,15 @@
     min-width: fit-content;
 }
 
+.servers-sidebar {
+    .channel, .unread-channel, .current-channel {
+        a {
+            max-width: 80px;
+            overflow: hidden;
+        }
+    }
+}
+
 .channels-sidebar {
     width: var(--channels-sidebar-width);
 }

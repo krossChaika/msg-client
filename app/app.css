@@ -130,9 +130,10 @@ h1, h2, h3, h4, h5, h6, p {
     top: anchor(--server-actions-btn bottom);
     left: anchor(--server-actions-btn left);
     width: calc(var(--channels-sidebar-width) - 1rem);
-    color: var(--color-primary-text);
-    background-color: var(--color-border);
+    color: var(--color-nav-text);
+    background-color: var(--color-primary-bg);
     border-radius: 0.5rem;
+    border: 1px solid var(--color-border);
     padding: 0.5rem;
 
     > hr {
@@ -141,7 +142,8 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .dialog-button {
-    padding-left: 0;
+    padding: 0;
+    margin-top: 0.5rem;
 }
 
 .modal-dialog {
@@ -223,6 +225,10 @@ nav {
     border-left: 1px solid var(--color-border);
 }
 
+.border-normal-t {
+    border-top: 1px solid var(--color-border);
+}
+
 .border-normal-b {
     border-bottom: 1px solid var(--color-border);
 }
@@ -233,4 +239,8 @@ nav {
 
 .border-nav-r {
     border-right: 1px solid var(--color-primary-bg);
+}
+
+.border-nav-b {
+    border-bottom: 1px solid var(--color-primary-bg);
 }

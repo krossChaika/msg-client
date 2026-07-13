@@ -1,27 +1,29 @@
 import { useContext } from 'react';
 import { MainContext, type MainContextType } from '~/hooks/useMain';
+import { useParams } from 'react-router';
 
 export default function() {
     const { context, updateContext } = useContext(MainContext);
+    const params = useParams<{ serverId: string, channelId: string }>();
     
     const getCurrentServer = (ctx: MainContextType) => {
-        if (ctx.currentServerId) {
-            return ctx.servers?.get(ctx.currentServerId);
+        if (params.serverId) {
+            return ctx.servers?.get(params.serverId);
         }
     };
     
     const getCurrentChannel = (ctx: MainContextType) => {
-        if (!ctx.currentChannelId) {
+        if (!params.channelId) {
             return undefined;
         }
         
         const currentServer = getCurrentServer(ctx);
         
         if (currentServer) {
-            return currentServer.channels.find(c => c.id === ctx.currentChannelId);
+            return currentServer.channels.find(c => c.id === params.channelId);
         }
         
-        return ctx.chats?.get(ctx.currentChannelId);
+        return ctx.chats?.get(params.channelId);
     };
     
     const getChannel = (ctx: MainContextType, id: string, serverId?: string) => {

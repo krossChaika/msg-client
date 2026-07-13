@@ -24,6 +24,8 @@ export const FriendsPage = memo(() => {
                     type="text"
                     name={'username'}
                     placeholder={'Username...'}
+                    minLength={1}
+                    maxLength={30}
                 />
                 <button className={'button-primary'}>
                     Send friend request

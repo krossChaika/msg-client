@@ -6,6 +6,7 @@ import { getMessagesQueryKey, type OptimisticMessage, useMessagesQuery } from '~
 import TrashBin from './trashbin.svg';
 import { useChatSocket } from '~/hooks/useChatSocket';
 import useMainContext from '~/hooks/useMainContext';
+import { useParams } from 'react-router';
 
 interface MessageCardProps {
     message: OptimisticMessage,
@@ -48,6 +49,7 @@ export type MessagesListProps = {
 
 export const MessagesList = memo((props: MessagesListProps) => {
     const { context, currentServer, currentChannel } = useMainContext();
+    const { channelId } = useParams();
     
     const messagesQueryKey = getMessagesQueryKey(currentChannel!.id);
     const messagesQuery = useMessagesQuery(currentChannel!.id);
@@ -136,7 +138,7 @@ export const MessagesList = memo((props: MessagesListProps) => {
             }
         });
         observerRef.current.observe(messageBoxTopRef);
-    }, [context.currentChannelId]);
+    }, [channelId]);
     
     useEffect(() => {
         if (!messageBoxTopRef) return;

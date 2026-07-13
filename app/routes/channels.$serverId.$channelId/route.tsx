@@ -15,7 +15,8 @@ import useMainContext from '~/hooks/useMainContext';
 import ArrowBack from '~/routes/channels.$serverId.$channelId/arrowback.svg';
 
 export default function() {
-    const { channelId } = useParams<ChannelsPageParams>() as ChannelsPageParams;
+    const { serverId, channelId }
+        = useParams<ChannelsPageParams>() as ChannelsPageParams;
     const {
         context,
         updateContext,
@@ -125,7 +126,7 @@ export default function() {
             <div className={'flex flex-col flex-1 gap-2 min-h-0'}>
                 <header className={'border-normal-b p-4'}>
                     <Link
-                        to={'/channels/' + context.currentServerId}
+                        to={'/channels/' + serverId}
                         className={'back-to-channels-btn mr-4 color-nav-text'}
                     >
                         <img className={'inline'} src={ArrowBack} alt="Back" />
@@ -148,7 +149,7 @@ export default function() {
                 </MyForm>
             </div>
             {
-                context.currentServerId !== 'me' &&
+                serverId !== 'me' &&
                 <aside className={'members-sidebar border-normal-l'}>
                     <p className={'color-nav-text p-4 border-normal-b'}>Members:</p>
                     <ul className={'m-4'}>
