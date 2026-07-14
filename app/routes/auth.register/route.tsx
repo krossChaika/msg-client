@@ -21,7 +21,7 @@ export default function() {
     };
     
     return (
-        <main className={'flex flex-col max-w-[100vw] w-[800px]'}>
+        <main className={'max-w-[100vw] w-200 m-auto p-4'}>
             <h1 className={'text-center mt-4'}>Register</h1>
             <MyForm className={'flex flex-col flex-1 space-y-2 m-4'} onSubmit={onSubmit}>
                 <input
