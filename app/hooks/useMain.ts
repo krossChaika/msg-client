@@ -20,12 +20,6 @@ export const MainContext = createContext<{
     updateContext: Updater<MainContextType>
 }>(null!);
 
-type HookResult = {
-    isLoading: boolean;
-    context: MainContextType;
-    updateContext: Updater<MainContextType>;
-}
-
 export const checkNewMessages = (
     context: MainContextType,
     channel: Channel,
@@ -41,12 +35,10 @@ export const checkNewMessages = (
     return lastVisitedDate < newestMessageDate;
 };
 
-export default function(serverId?: string, channelId?: string): HookResult {
+export default function() {
     const membershipsQuery = useMyUserData();
     const { context, updateContext } = useContext(MainContext);
     const [user, setUser] = useState<User | null>(null);
-    
-    const isLoading = user === null;
     
     useEffect(() => {
         if (!membershipsQuery.data) return;
@@ -79,8 +71,6 @@ export default function(serverId?: string, channelId?: string): HookResult {
                 const chats = new Map();
                 
                 for (const m of user.serverMemberships) {
-                    const _channels = [...m.server.channels];
-                    _channels.sort((a, b) => (a.lastMessageDate > b.lastMessageDate) ? 1 : 0);
                     servers.set(m.serverId, m.server);
                 }
                 
@@ -93,10 +83,4 @@ export default function(serverId?: string, channelId?: string): HookResult {
             });
         }
     }, [user]);
-    
-    return {
-        isLoading,
-        context,
-        updateContext,
-    };
 }

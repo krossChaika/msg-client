@@ -1,5 +1,5 @@
 import { ServersSidebar } from '~/routes/channels/serversSidebar';
-import { Outlet, useParams } from 'react-router';
+import { Outlet } from 'react-router';
 import useMain, {
     MainContext,
     type MainContextType,
@@ -28,11 +28,8 @@ export default function() {
 }
 
 function Page() {
-    const { serverId, channelId } = useParams<ChannelsPageParams>();
-    
+    useMain();
     const { context, updateContext, getChannel } = useMainContext();
-    
-    const { isLoading } = useMain(serverId, channelId);
     
     const queryClient = useQueryClient();
     
@@ -142,7 +139,7 @@ function Page() {
         },
     ]);
     
-    if (isLoading || !context.servers) return null;
+    if (!context.servers) return null;
     
     return (
         <div className={'channels-page'}>
